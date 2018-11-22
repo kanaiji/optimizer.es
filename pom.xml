@@ -155,10 +155,10 @@
 		</dependency>
 
         <!-- Rabbitmq -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- 使用Jasper引擎解析JSP -->
 		<dependency>
@@ -180,15 +180,6 @@
 		</dependency>
 		<!-- Springboot libs end -->
 		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<dependency> 
-			<groupId>mysql</groupId> 
-			<artifactId>mysql-connector-java</artifactId> 
-	    </dependency>
-
 		<!-- swagger2 -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -202,12 +193,6 @@
 			<version>2.9.2</version>
 		</dependency>
 	
-           <dependency>
-		    <groupId>com.github.pagehelper</groupId>
-		    <artifactId>pagehelper-spring-boot-starter</artifactId>
-		    <version>${pagehelper.version}</version>
-	    </dependency>
-
 		<!-- Mongodb -->
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-mongodb</artifactId> 
 			</dependency> -->
@@ -291,14 +276,14 @@
 		</dependency> -->
 
 		<!-- redis 客户端 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<!-- <version>${jedis.version}</version> -->
-		</dependency>
+			<version>${jedis.version}</version>
+		</dependency> -->
 
 		<!-- 阿里云OSS -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<exclusions>  
@@ -308,10 +293,10 @@
 				 </exclusion>  
 			</exclusions>
 			<version>${aliyunoss.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- 阿里云短信sdk -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-core</artifactId>
 			<version>3.3.1</version>
@@ -320,10 +305,10 @@
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 			<version>1.0.0</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- sftp -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<version>${sftp.version}</version>
@@ -333,10 +318,10 @@
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>${jdom.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- goole-QR -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 			<version>${google.qr.version}</version>
@@ -345,31 +330,31 @@
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>${google.qr.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- 拼音 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.belerweb</groupId>
 			<artifactId>pinyin4j</artifactId>
 			<version>${pinyin.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- ftp -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 			<version>${ftp.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- jwt token -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.bitbucket.b_c</groupId>
 			<artifactId>jose4j</artifactId>
 			<version>0.4.4</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- poi -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.9</version>
@@ -379,7 +364,7 @@
 					<artifactId>dom4j</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency> -->
 
 		<!-- solr客户端 -->
 		<!-- <dependency>
@@ -414,11 +399,11 @@
 		</dependency>
 		
         <!-- 阿里云日志服务 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.aliyun.openservices</groupId>
 			<artifactId>aliyun-log</artifactId>
 			<version>${aliyunlog.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- kafka -->
 		<dependency>
@@ -432,11 +417,11 @@
 		</dependency>
 		
 		<!-- javax.mail -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>com.sun.mail</groupId>
 		    <artifactId>javax.mail</artifactId>
-		    <!-- <version>${mail.version}</version> -->
-		</dependency>
+		    <version>${mail.version}</version>
+		</dependency> -->
 
 	</dependencies>
 
