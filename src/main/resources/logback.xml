@@ -140,7 +140,7 @@
         </filter>
     </appender>
     
-	<root level="info">
+	<root level="${root.level}">
 		<appender-ref ref="console" />
 		<appender-ref ref="error"/>
 		<appender-ref ref="warn"/>

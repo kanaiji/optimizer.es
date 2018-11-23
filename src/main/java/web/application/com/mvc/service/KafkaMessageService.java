@@ -1,24 +1,16 @@
 package web.application.com.mvc.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 
+@SuppressWarnings("unused")
+public class KafkaMessageService {
 
-/**
- * ES服务端
- * 
- * @author sdc
- *
- */
-public interface KafkaMessageService {
 	
-	/**
-	 * 转化添加
-	 * @param param
-	 * @return
-	 * @throws Exception
-	 */
-	public void castKafkaMsgSendEs(JSONObject data) throws Exception;
-    
+	public void castKafkaMsgSendEs(JSONObject data) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
 }

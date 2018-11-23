@@ -1,6 +1,5 @@
 package web.application.com.common.uitls;
 
-import org.apache.commons.lang.NotImplementedException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -252,16 +251,4 @@ public class Tools {
 	}
 	
 	
-	/**
-	 * 米 转换 为 经度之差
-	 * @param meter 米
-	 * @return
-	 */
-	public static String meter2LongtitudeDis(int meter) {
-		throw new NotImplementedException("此方法尚未实现");
-	}
-	
-	public static String meter2LatitudeDis(int meter){
-		throw new NotImplementedException("此方法尚未实现");
-	}
 }

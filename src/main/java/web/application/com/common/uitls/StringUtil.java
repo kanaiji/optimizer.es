@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 /**
  * String字符串工具类.
@@ -176,7 +176,7 @@ public final class StringUtil {
 	 * @return true or false .
 	 */
 	public static boolean isNumeric(String str) {
-		if (StringUtils.isBlank(str)) {
+		if (StringUtils.isEmpty(str)) {
 			return false;
 		} else {
 			return str.matches("\\d*");

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 日期工具类
  */
-public class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public class DateUtils {
 
 	public static final String TIME_WITH_MINUTE_PATTERN = "HH:mm";
 
@@ -122,7 +122,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 	 */
 	public static Date parseDate(String str, String parsePatterns) {
 		try {
-			return parseDate(str, new String[] { parsePatterns });
+			return new SimpleDateFormat(parsePatterns).parse(str);
 		} catch (ParseException e) {
 			logger.error("DateUtils",e);
 			return null;
