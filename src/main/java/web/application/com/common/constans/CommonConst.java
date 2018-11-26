@@ -19,6 +19,16 @@ public class CommonConst {
 	public final static String TOPIC_BUDGET_DELTA = "dev.delta.sctid.ibm_forecast_budget_delta";
 	public final static String TOPIC_ROADMAP_DELTA = "dev.delta.sctid.ibm_forecast_roadmap_delta";
 	
+	
+	
+	/**
+	 * kafka topic name
+	 */
+	public final static String KAFKA_TOPIC_BUDGET_DELTA_PARTITION_OFFSET = "budget_delta_";
+	public final static String KAFKA_TOPIC_ROADMAP_DELTA_PARTITION_OFFSET = "roadmap_delta_";
+	
+	
+	
 
 	/**
 	 * elasticsearch connection info 

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import web.application.com.common.config.KafkaOffsetConfig;
 import web.application.com.common.constans.CommonConst;
 import web.application.com.mvc.service.KafkaMessageService;
 
@@ -33,7 +34,7 @@ public class KafkaConsumerLinster {
 		 * System.out.println("groupId is "+groupId+1);
 		 */
 		props.put("bootstrap.servers", "devkz01.rtp.raleigh.ibm.com:5001");
-		props.put("group.id", "optimizer-es1");
+		props.put("group.id", "optimizer-es2");
 		props.put("enable.auto.commit", "false");
 		props.put("auto.offset.reset", "earliest");
 //	    props.put("auto.offset.reset", "smallest");
@@ -66,11 +67,24 @@ public class KafkaConsumerLinster {
 //					 consumer.seekToBeginning(consumer.assignment().toArray(),index);
 					
 					//指定主题的分区
-					consumer.assign(Arrays.asList(new TopicPartition(CommonConst.TOPIC_BUDGET_DELTA, index)));
+					TopicPartition topicPartition = new TopicPartition(CommonConst.TOPIC_BUDGET_DELTA, index);
+					consumer.assign(Arrays.asList(topicPartition));
 //					List<TopicPartition> partitions = new ArrayList<TopicPartition>();
 //					partitions.add(new TopicPartition(topic_budget_delta, index));
 //					partitions.add(new TopicPartition(topic_roadmap_delta, index));
 //					consumer.assign(partitions);
+//                  指定从topic的分区的某个offset开始消费
+//			        consumer.seekToBeginning(Arrays.asList(p));
+					
+					String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
+					long start_offset = KafkaOffsetConfig.getProperties(offset_key);
+					log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+					System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+					
+					if(start_offset != 0) {
+						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
+						consumer.seek(topicPartition, start_offset);
+					}
 					while (true) {
 						ConsumerRecords<String, String> records = consumer.poll(1000);
 						System.out.println(Thread.currentThread() + " topic :" + CommonConst.TOPIC_BUDGET_DELTA + " Lewis kafka records count = " + records.count() + ", Partition=" + index);
@@ -83,8 +97,11 @@ public class KafkaConsumerLinster {
 					    	System.out.println("Lewis kafka message info --> topic:" + CommonConst.TOPIC_BUDGET_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
 					    	kafkaMessageService.castKafkaMsgSendEs(CommonConst.ES_INDEX_BUDGET_DELTA, CommonConst.TOPIC_BUDGET_DELTA, partition, key, value, offset);
 //					    	break;
+					    	
+					    	//刷新offset 值
+					    	KafkaOffsetConfig.setProperty(offset_key, offset);
 					    }
-					    Thread.sleep(30000);
+					    Thread.sleep(10000);
 					}
 				} catch (Exception e) {
 					log.error("Exception when consuming messages {}", e);
@@ -120,11 +137,22 @@ public class KafkaConsumerLinster {
 //					 consumer.seekToBeginning(consumer.assignment().toArray(),index);
 					
 					//指定主题的分区
-					consumer.assign(Arrays.asList(new TopicPartition(CommonConst.TOPIC_ROADMAP_DELTA, index)));
+					TopicPartition topicPartition = new TopicPartition(CommonConst.TOPIC_ROADMAP_DELTA, index);
+					consumer.assign(Arrays.asList(topicPartition));
 //					List<TopicPartition> partitions = new ArrayList<TopicPartition>();
 //					partitions.add(new TopicPartition(topic_budget_delta, index));
 //					partitions.add(new TopicPartition(topic_roadmap_delta, index));
 //					consumer.assign(partitions);
+					
+					String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
+					long start_offset = KafkaOffsetConfig.getProperties(offset_key);
+					log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+//					System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+					if(start_offset != 0) {
+						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
+						consumer.seek(topicPartition, start_offset);
+					}
+			        
 					while (true) {
 						ConsumerRecords<String, String> records = consumer.poll(1000);
 						System.out.println(Thread.currentThread() + " topic :" + CommonConst.TOPIC_ROADMAP_DELTA +" Lewis kafka message size = " + records.count() + ", Partition=" + index);
@@ -141,6 +169,8 @@ public class KafkaConsumerLinster {
 					    	System.out.println("Lewis kafka message info --> topic:" + CommonConst.TOPIC_ROADMAP_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
 					    	kafkaMessageService.castKafkaMsgSendEs(CommonConst.ES_INDEX_ROADMAP_DELTA, CommonConst.TOPIC_ROADMAP_DELTA, partition, key, value, offset);
 //					    	break;
+					    	//刷新offset 值
+					    	KafkaOffsetConfig.setProperty(offset_key, offset);
 					    }
 					    Thread.sleep(10000);
 					}

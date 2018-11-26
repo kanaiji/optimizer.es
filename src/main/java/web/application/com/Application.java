@@ -2,6 +2,7 @@ package web.application.com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import web.application.com.middleware.kafka.Init;
 
 @SpringBootApplication
@@ -14,7 +15,6 @@ public class Application {
 		
 		System.out.println("----------------启动kafka消费者----------------");
 		Init.start();
-		
 	}
     
 }

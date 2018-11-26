@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 
-elasticserach 所在服务器：9.37.248.224, 浏览器resultful api 端口 9200， Java client request 端口 9300.
+elasticserach（v5.4.1） 所在服务器：9.37.248.224, 浏览器resultful api 端口 9200， Java client request 端口 9300.
 
 所在目录：/agui/install/elasticsearch-5.4.1/
 
@@ -17,8 +17,10 @@ http://9.37.248.224:9200/_cat/indices?v
 查看 index name = dev.delta.sctid.ibm_forecast_budget_delta 下的所有 字段信息。
 http://9.37.248.224:9200/dev.delta.sctid.ibm_forecast_budget_delta/_search?pretty
 
+分页
+http://9.37.248.224:9200/dev.delta.sctid.ibm_forecast_roadmap_delta/_search?pretty&size=20
 
 启动Java项目
-java -jar optimizer.es.jar
+nohup  java -jar optimizer.es.jar  -Xms2048m -Xmx200m -XX:+UseConcMarkSweepGC +UseCMSCompactAtFullCollection --logfile=optimizer_es.log  > optimizer_es.log 2>& 1 &   
 
 
