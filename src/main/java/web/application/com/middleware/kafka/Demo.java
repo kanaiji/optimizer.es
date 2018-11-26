@@ -1,3 +1,4 @@
+package web.application.com.middleware.kafka;
 //package forecasting.node.kafka.consumer.entity.topic;
 //
 //import akka.actor.ActorRef;

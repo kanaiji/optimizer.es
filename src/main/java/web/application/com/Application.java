@@ -13,9 +13,8 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 		
-		System.out.println("----------------启动消费者----------------");
-		
-		KafkaConsumerLinster.subscribe();
+		System.out.println("----------------启动kafka消费者----------------");
+		new KafkaConsumerLinster().subscribe_budget_delta();
 		
 		
 	}
