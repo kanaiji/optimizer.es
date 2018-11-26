@@ -29,7 +29,7 @@ public class ESConfig implements FactoryBean<TransportClient>, InitializingBean,
 	 * es集群地址
 	 */
 	@Value("${elasticsearch.ip}")
-	private String hostName;
+	private String ip;
 	/**
 	 * 端口
 	 */
@@ -85,7 +85,7 @@ public class ESConfig implements FactoryBean<TransportClient>, InitializingBean,
 					.build();
 
 			client = new PreBuiltTransportClient(esSetting);
-			InetSocketTransportAddress inetSocketTransportAddress = new InetSocketTransportAddress(InetAddress.getByName(hostName), Integer.valueOf(port));
+			InetSocketTransportAddress inetSocketTransportAddress = new InetSocketTransportAddress(InetAddress.getByName(ip), Integer.valueOf(port));
 			client.addTransportAddresses(inetSocketTransportAddress);
 
 		} catch (Exception e) {

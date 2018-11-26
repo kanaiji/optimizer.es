@@ -2,6 +2,7 @@ package web.application.com.middleware.elasticsearch;
 
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,8 +21,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,20 +44,25 @@ public class EslaticSearchTemplet {
 	
 	private static Logger log = LoggerFactory.getLogger(EslaticSearchTemplet.class);
 
-    @Autowired
+	@Autowired
     private TransportClient client;
     
-
     
-    
+	/**
+	 * 暂时用不到，配置了全局
+	 */
 	@SuppressWarnings("resource")
-	@Before
-	public void getClient() throws Exception{
-        //设置集群名称
-        Settings settings = Settings.builder().put("cluster.name", "my-application").build();// 集群名
-        //创建client
-        client  = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(CommonConst.IP), CommonConst.PORT));
+//	@Before
+	public void getClient() {
+		try {
+	        //设置集群名称
+	        Settings settings = Settings.builder().put("cluster.name", "my-application").build();// 集群名
+	        //创建client
+			client  = new PreBuiltTransportClient(settings)
+			        .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(CommonConst.IP), CommonConst.PORT));
+		} catch (UnknownHostException e) {
+			log.error("es 创建链接失败...", e);
+		}
 	}
     
     
@@ -69,7 +73,7 @@ public class EslaticSearchTemplet {
      * @param index
      * @return
      */
-    @Test
+//    @Test
     public void buildIndex() {
     	/*String index
         if (!isIndexExist(index)) {
@@ -85,7 +89,7 @@ public class EslaticSearchTemplet {
 	 *  创建索引并添加文档
 	 * @throws Exception
 	 */
-	@Test
+//	@Test
 	public void addIndexAndDocument(String index, String type, String id, String offset, String key, String value, String partition) throws Exception{
 				
 		IndexResponse response = client.prepareIndex(index, type)
