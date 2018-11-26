@@ -2,7 +2,7 @@ package web.application.com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import web.application.com.middleware.kafka.KafkaConsumerLinster;
+import web.application.com.middleware.kafka.Init;
 
 @SpringBootApplication
 //@EnableAutoConfiguration(exclude={ElasticsearchAutoConfiguration.class, ElasticsearchDataAutoConfiguration.class})
@@ -13,7 +13,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 		
 		System.out.println("----------------启动kafka消费者----------------");
-		new KafkaConsumerLinster().subscribe_budget_delta();
+		Init.start();
 		
 	}
     

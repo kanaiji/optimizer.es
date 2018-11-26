@@ -24,8 +24,7 @@ public class KafkaMessageService {
 		data.put("offset", offset);
 		data.put("key", key);
 		data.put("value", value);
-		
-		eslaticSearchTemplet.addTargetDataALL(data, index, CommonConst.ES_INDEX_TYPE_JSON, "");
+		eslaticSearchTemplet.addTargetDataALL(data, index, CommonConst.ES_INDEX_TYPE_JSON, null);
 
 	}
 

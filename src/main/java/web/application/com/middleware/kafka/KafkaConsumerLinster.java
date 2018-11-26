@@ -2,8 +2,6 @@ package web.application.com.middleware.kafka;
 
 import java.util.Arrays;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,19 +11,16 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import web.application.com.common.constans.CommonConst;
 import web.application.com.mvc.service.KafkaMessageService;
 
-@Component
+@Service("kafkaConsumerLinster")
 public class KafkaConsumerLinster {
 
 	private static Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
-	private static ExecutorService pool_budget_delta = Executors.newFixedThreadPool(6);
-	
-//	private static ExecutorService pool_roadmap_delta = Executors.newFixedThreadPool(6);
 
 	@Autowired
 	private KafkaMessageService kafkaMessageService ;
@@ -53,10 +48,10 @@ public class KafkaConsumerLinster {
 	
 	
 	public void subscribe_budget_delta() {
-//		for (int i = 0; i < 6; i++) {
-		for (int i = 0; i < 1; i++) {
-//			final int index = i;
-			pool_budget_delta.execute(() -> {
+		for (int i = 0; i < 6; i++) {
+//		for (int i = 0; i < 1; i++) {
+			final int index = i;
+			Init.pool_budget_delta.execute(() -> {
 				System.out.println("creating the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
@@ -71,23 +66,23 @@ public class KafkaConsumerLinster {
 //					 consumer.seekToBeginning(consumer.assignment().toArray(),index);
 					
 					//指定主题的分区
-					consumer.assign(Arrays.asList(new TopicPartition(CommonConst.TOPIC_BUDGET_DELTA, 0)));
+					consumer.assign(Arrays.asList(new TopicPartition(CommonConst.TOPIC_BUDGET_DELTA, index)));
 //					List<TopicPartition> partitions = new ArrayList<TopicPartition>();
 //					partitions.add(new TopicPartition(topic_budget_delta, index));
 //					partitions.add(new TopicPartition(topic_roadmap_delta, index));
 //					consumer.assign(partitions);
 					while (true) {
 						ConsumerRecords<String, String> records = consumer.poll(1000);
-						System.out.println("Lewis kafka message size = " + records.count());
+						System.out.println(Thread.currentThread() + " topic :" + CommonConst.TOPIC_BUDGET_DELTA + " Lewis kafka records count = " + records.count() + ", Partition=" + index);
 					    for (ConsumerRecord<String, String> record : records) {
 					    	String key = record.key();
 					    	String value = record.value();
 					    	String offset = String.valueOf(record.offset());
 					    	String partition = String.valueOf(record.partition());
-					    	log.info("Lewis kafka message info --> topic:" + CommonConst.TOPIC_BUDGET_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
-					    	
+//					    	log.info("Lewis kafka message info --> topic:" + CommonConst.TOPIC_BUDGET_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
+					    	System.out.println("Lewis kafka message info --> topic:" + CommonConst.TOPIC_BUDGET_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
 					    	kafkaMessageService.castKafkaMsgSendEs(CommonConst.ES_INDEX_BUDGET_DELTA, CommonConst.TOPIC_BUDGET_DELTA, partition, key, value, offset);
-					    	break;
+//					    	break;
 					    }
 					    Thread.sleep(30000);
 					}
@@ -97,21 +92,21 @@ public class KafkaConsumerLinster {
 					if (consumer != null) {
 						consumer.close();
 					}
-					pool_budget_delta.shutdown();
+					Init.pool_budget_delta.shutdown();
 				}
 			});
 		}
-		pool_budget_delta.shutdown();
+		Init.pool_budget_delta.shutdown();
 
 	}
 	
 	
 	
-	/*public static void subscribe_roadmap_delta() {
-//		for (int i = 0; i < 6; i++) {
-		for (int i = 0; i < 1; i++) {
-//			final int index = i;
-			pool_roadmap_delta.execute(() -> {
+	public void subscribe_roadmap_delta() {
+		for (int i = 0; i < 6; i++) {
+//		for (int i = 0; i < 1; i++) {
+			final int index = i;
+			Init.pool_roadmap_delta.execute(() -> {
 				System.out.println("creating pool_roadmap_delta the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
@@ -125,19 +120,29 @@ public class KafkaConsumerLinster {
 //					 consumer.seekToBeginning(consumer.assignment().toArray(),index);
 					
 					//指定主题的分区
-					consumer.assign(Arrays.asList(new TopicPartition(topic_roadmap_delta, 0)));
+					consumer.assign(Arrays.asList(new TopicPartition(CommonConst.TOPIC_ROADMAP_DELTA, index)));
 //					List<TopicPartition> partitions = new ArrayList<TopicPartition>();
 //					partitions.add(new TopicPartition(topic_budget_delta, index));
 //					partitions.add(new TopicPartition(topic_roadmap_delta, index));
 //					consumer.assign(partitions);
 					while (true) {
 						ConsumerRecords<String, String> records = consumer.poll(1000);
-						System.out.println("Lewis kafka message size = " + records.count());
-					    for (ConsumerRecord<String, String> record : records) {
+						System.out.println(Thread.currentThread() + " topic :" + CommonConst.TOPIC_ROADMAP_DELTA +" Lewis kafka message size = " + records.count() + ", Partition=" + index);
+					    /*for (ConsumerRecord<String, String> record : records) {
 					    	System.out.println("Lewis ----> " + record.offset() + ": " + record.value());
 					    	break;
+					    }*/
+						for (ConsumerRecord<String, String> record : records) {
+					    	String key = record.key();
+					    	String value = record.value();
+					    	String offset = String.valueOf(record.offset());
+					    	String partition = String.valueOf(record.partition());
+//					    	log.info("Lewis kafka message info --> topic:" + CommonConst.TOPIC_BUDGET_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
+					    	System.out.println("Lewis kafka message info --> topic:" + CommonConst.TOPIC_ROADMAP_DELTA + ", key=" + key + ",value=" + value + ", offset="+offset+", partition="+partition);
+					    	kafkaMessageService.castKafkaMsgSendEs(CommonConst.ES_INDEX_ROADMAP_DELTA, CommonConst.TOPIC_ROADMAP_DELTA, partition, key, value, offset);
+//					    	break;
 					    }
-					    Thread.sleep(30000);
+					    Thread.sleep(10000);
 					}
 				} catch (Exception e) {
 					log.error("Exception when consuming messages {}", e);
@@ -145,14 +150,14 @@ public class KafkaConsumerLinster {
 					if (consumer != null) {
 						consumer.close();
 					}
-					pool_roadmap_delta.shutdown();
+					Init.pool_roadmap_delta.shutdown();
 				}
 			});
 		}
 
-		pool_roadmap_delta.shutdown();
+		Init.pool_roadmap_delta.shutdown();
 
-	}*/
+	}
 	
 	
 	

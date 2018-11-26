@@ -110,7 +110,7 @@ public class EslaticSearchTemplet {
 	/**
      * 添加数据
      *
-     * @param data  添加的数据类型 json格式的
+     * @param data  添加的数据类型 json格式的 key 是 该index 的field 的key, value 是该域的值。
      * @param index 索引<----->关系型数据库
      * @param type  类型<----->关系型数据表
      * @param id    数据ID<----->id
