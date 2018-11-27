@@ -1,13 +1,10 @@
 package web.application.com.middleware.kafka;
 
 import java.util.Arrays;
-import java.util.Properties;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import web.application.com.common.config.KafkaOffsetConfig;
 import web.application.com.common.constans.CommonConst;
+import web.application.com.configuration.kafka.KafkaConfig;
 import web.application.com.mvc.service.KafkaMessageService;
+
 
 @Service("kafkaConsumerLinster")
 public class KafkaConsumerLinster {
@@ -25,28 +24,12 @@ public class KafkaConsumerLinster {
 
 	@Autowired
 	private KafkaMessageService kafkaMessageService ;
-
-
-	public static Properties getConfig() {
-		Properties props = new Properties();
-		/*
-		 * System.out.println("Url is "+url);
-		 * System.out.println("groupId is "+groupId+1);
-		 */
-		props.put("bootstrap.servers", "devkz01.rtp.raleigh.ibm.com:5001");
-		props.put("group.id", "optimizer-es2");
-		props.put("enable.auto.commit", "false");
-		props.put("auto.offset.reset", "earliest");
-//	    props.put("auto.offset.reset", "smallest");
-//		props.put("auto.commit.interval.ms", "1000");
-//	    props.put("session.timeout.ms", "30000");
-		props.put("max.poll.interval.ms", 300000);
-		props.put("max.poll.records", 20000);
-		props.put("key.deserializer", StringDeserializer.class.getName());
-		props.put("value.deserializer", StringDeserializer.class.getName());
-		return props;
-	}
 	
+	
+	@Autowired
+	public KafkaConfig kafkaConfig;
+	
+
 	
 	public void subscribe_budget_delta() {
 		for (int i = 0; i < 6; i++) {
@@ -56,7 +39,7 @@ public class KafkaConsumerLinster {
 				System.out.println("creating the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
-					consumer = new KafkaConsumer<>(getConfig());
+					consumer = new KafkaConsumer<>(kafkaConfig.getConfig());
 					
 					//指定主题
 //					List<String> topics = new ArrayList<>();
@@ -127,7 +110,7 @@ public class KafkaConsumerLinster {
 				System.out.println("creating pool_roadmap_delta the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
-					consumer = new KafkaConsumer<>(getConfig());
+					consumer = new KafkaConsumer<>(kafkaConfig.getConfig());
 					
 					//指定主题
 //					List<String> topics = new ArrayList<>();
