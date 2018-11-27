@@ -1,10 +1,14 @@
 package web.application.com.middleware.kafka;
 
 import java.util.Arrays;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +34,11 @@ public class KafkaConsumerLinster {
 	public KafkaConfig kafkaConfig;
 	
 
-	
-	public void subscribe_budget_delta() {
+	public void subscribe_budget_delta(ExecutorService pool_budget_delta) {
 		for (int i = 0; i < 6; i++) {
 //		for (int i = 0; i < 1; i++) {
 			final int index = i;
-			Init.pool_budget_delta.execute(() -> {
+			pool_budget_delta.execute(() -> {
 				System.out.println("creating the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
@@ -92,21 +95,21 @@ public class KafkaConsumerLinster {
 					if (consumer != null) {
 						consumer.close();
 					}
-					Init.pool_budget_delta.shutdown();
+					pool_budget_delta.shutdown();
 				}
 			});
 		}
-		Init.pool_budget_delta.shutdown();
+		pool_budget_delta.shutdown();
 
 	}
 	
 	
 	
-	public void subscribe_roadmap_delta() {
+	public void subscribe_roadmap_delta(ExecutorService pool_roadmap_delta) {
 		for (int i = 0; i < 6; i++) {
 //		for (int i = 0; i < 1; i++) {
 			final int index = i;
-			Init.pool_roadmap_delta.execute(() -> {
+			pool_roadmap_delta.execute(() -> {
 				System.out.println("creating pool_roadmap_delta the " + 1 + " thread");
 				KafkaConsumer<String, String> consumer = null;
 				try {
@@ -163,13 +166,32 @@ public class KafkaConsumerLinster {
 					if (consumer != null) {
 						consumer.close();
 					}
-					Init.pool_roadmap_delta.shutdown();
+					pool_roadmap_delta.shutdown();
 				}
 			});
 		}
 
-		Init.pool_roadmap_delta.shutdown();
+		pool_roadmap_delta.shutdown();
 
+	}
+
+
+
+	private Properties getConfig() {
+		
+		Properties props = new Properties();
+		props.put("bootstrap.servers", "devkz01.rtp.raleigh.ibm.com:5001");
+		props.put("group.id", "optimizer-es2");
+		props.put("enable.auto.commit", "false");
+		props.put("auto.offset.reset", "earliest");
+//	    props.put("auto.offset.reset", "smallest");
+//		props.put("auto.commit.interval.ms", "1000");
+//	    props.put("session.timeout.ms", "30000");
+		props.put("max.poll.interval.ms", 300000);
+		props.put("max.poll.records", 20000);
+		props.put("key.deserializer", StringDeserializer.class.getName());
+		props.put("value.deserializer", StringDeserializer.class.getName());
+		return props;
 	}
 	
 	

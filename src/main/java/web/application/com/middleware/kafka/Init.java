@@ -16,9 +16,9 @@ public class Init {
 	private static Logger log = LoggerFactory.getLogger(Init.class);
 	
 	
-	public static ExecutorService pool_budget_delta = Executors.newFixedThreadPool(6);
+	private static ExecutorService pool_budget_delta = Executors.newFixedThreadPool(6);
 	
-	public static ExecutorService pool_roadmap_delta = Executors.newFixedThreadPool(6);
+	private static ExecutorService pool_roadmap_delta = Executors.newFixedThreadPool(6);
 	
 
 	public static void start() {
@@ -28,11 +28,11 @@ public class Init {
 			KafkaConsumerLinster kafkaConsumerLinster = (KafkaConsumerLinster) springContextUtil.getBean("kafkaConsumerLinster");
 					
 			log.warn("optimizer.es start lister subscribe_budget_delta...successful");
-			kafkaConsumerLinster.subscribe_budget_delta();
+			kafkaConsumerLinster.subscribe_budget_delta(pool_budget_delta);
 			log.warn("subscribe_budget_delta...successful");
 			
 			log.warn("optimizer.es start lister subscribe_roadmap_delta...successful");
-			kafkaConsumerLinster.subscribe_roadmap_delta();
+			kafkaConsumerLinster.subscribe_roadmap_delta(pool_roadmap_delta);
 			log.warn("subscribe_roadmap_delta...successful");
 
 		} catch (Exception e) {

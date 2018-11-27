@@ -32,7 +32,9 @@ public class KafkaOffsetConfig {
 
 	private static Properties props = new Properties();
 	
-	private static String file_url = "";
+	//
+//	private static String file_url = "config/kafka_offset.properties";
+	private static String file_url = "/agui/kafka_offset.properties";
 	
 	
 	/**
@@ -43,7 +45,7 @@ public class KafkaOffsetConfig {
 		InputStream proFile = null;
 		try {
 			//通过该类的类装载器获取文件的路径
-			file_url = KafkaOffsetConfig.class.getClassLoader().getResource("config/kafka_offset.properties").getPath();
+//			file_url = KafkaOffsetConfig.class.getClassLoader().getResource("config/kafka_offset.properties").getPath();
 			
 			LOG.info("=== load kafka_offset.properties and init sys param");
 			proFile = Thread.currentThread().getContextClassLoader().getResourceAsStream("config/kafka_offset.properties");
