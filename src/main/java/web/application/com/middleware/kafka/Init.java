@@ -21,12 +21,13 @@ public class Init {
 	private static ExecutorService pool_roadmap_delta = Executors.newFixedThreadPool(6);
 	
 
-	public static void start() {
+	public static void start(boolean isRecordOffSet) {
 		
 		SpringContextUtil springContextUtil = new SpringContextUtil();
 		try {
 			KafkaConsumerLinster kafkaConsumerLinster = (KafkaConsumerLinster) springContextUtil.getBean("kafkaConsumerLinster");
-					
+			kafkaConsumerLinster.setIsRecordOffSet(isRecordOffSet);
+			
 			log.warn("optimizer.es start lister subscribe_budget_delta...successful");
 			kafkaConsumerLinster.subscribe_budget_delta(pool_budget_delta);
 			log.warn("subscribe_budget_delta...successful");

@@ -1,5 +1,6 @@
 package web.application.com.common.config;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,8 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import web.application.com.common.uitls.StringUtil;
+
 /**
  * kafka  partition offset 记录
  */
@@ -15,26 +18,10 @@ public class KafkaOffsetConfig {
 
 	private static final Log LOG = LogFactory.getLog(KafkaOffsetConfig.class);
 
-	/*public static long  dev_delta_sctid_ibm_forecast_roadmap_delta_0 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_roadmap_delta_1 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_roadmap_delta_2 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_roadmap_delta_3 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_roadmap_delta_4 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_roadmap_delta_5 = 0;
-
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_0 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_1 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_2 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_3 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_4 = 0;
-	public static long 	dev_delta_sctid_ibm_forecast_budget_delta_5 = 0;*/
-	
-
 	private static Properties props = new Properties();
 	
 	//
-//	private static String file_url = "config/kafka_offset.properties";
-	private static String file_url = "/agui/kafka_offset.properties";
+	public static String file_url ;
 	
 	
 	/**
@@ -46,49 +33,16 @@ public class KafkaOffsetConfig {
 		try {
 			//通过该类的类装载器获取文件的路径
 //			file_url = KafkaOffsetConfig.class.getClassLoader().getResource("config/kafka_offset.properties").getPath();
-			
-			LOG.info("=== load kafka_offset.properties and init sys param");
-			proFile = Thread.currentThread().getContextClassLoader().getResourceAsStream("config/kafka_offset.properties");
-			props.load(proFile);
-			
-			/*dev_delta_sctid_ibm_forecast_roadmap_delta_0 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_0"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_0 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_0);
-			
-			dev_delta_sctid_ibm_forecast_roadmap_delta_1 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_1"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_1 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_1);
-			
-			dev_delta_sctid_ibm_forecast_roadmap_delta_2 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_2"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_2 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_2);
-			
-			dev_delta_sctid_ibm_forecast_roadmap_delta_3 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_3"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_3 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_3);
-			
-			dev_delta_sctid_ibm_forecast_roadmap_delta_4 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_4"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_4 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_4);
-			
-			dev_delta_sctid_ibm_forecast_roadmap_delta_5 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_roadmap_delta_5"));
-			LOG.info("dev_delta_sctid_ibm_forecast_roadmap_delta_5 = " + dev_delta_sctid_ibm_forecast_roadmap_delta_5);
-
-			
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_0 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_0"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_0 = " + dev_delta_sctid_ibm_forecast_budget_delta_0);
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_1 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_1"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_1 = " + dev_delta_sctid_ibm_forecast_budget_delta_1);
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_2 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_2"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_2 = " + dev_delta_sctid_ibm_forecast_budget_delta_2);
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_3 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_3"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_3 = " + dev_delta_sctid_ibm_forecast_budget_delta_3);
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_4 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_4"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_4 = " + dev_delta_sctid_ibm_forecast_budget_delta_4);
-			
-			dev_delta_sctid_ibm_forecast_budget_delta_5 = Long.valueOf(props.getProperty("dev_delta_sctid_ibm_forecast_budget_delta_5"));
-			LOG.info("dev_delta_sctid_ibm_forecast_budget_delta_5 = " + dev_delta_sctid_ibm_forecast_budget_delta_5);*/
-			
+			if(!StringUtil.isEmpty(file_url)) {
+				LOG.info("=== load local kafka_offset.properties and init sys param");
+				proFile = new FileInputStream("file_url");
+			}
+			/*else {
+				file_url = "config/kafka_offset.properties";
+				LOG.info("=== load project kafka_offset.properties and init sys param");
+				proFile = Thread.currentThread().getContextClassLoader().getResourceAsStream(file_url);
+				props.load(proFile);
+			}*/
 		} catch (Exception e) {
 			LOG.error("=== load and init kafka_offset.properties exception:", e);
 		}finally {
