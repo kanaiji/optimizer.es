@@ -29,7 +29,11 @@ public class KafkaConsumerLinster {
 	
 	
 	@Autowired
-	public KafkaConfig kafkaConfig;
+	private KafkaConfig kafkaConfig;
+	
+	@Autowired
+	private KafkaOffsetConfig kafkaOffsetConfig;
+	
 	
 	//默认不记录
 	public boolean isRecordOffSet = false;
@@ -70,10 +74,11 @@ public class KafkaConsumerLinster {
 					//判断是否需要从 设置的offset 开始 读取
 					if(isRecordOffSet) {
 						String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
-						long start_offset = KafkaOffsetConfig.getProperties(offset_key);
+						long start_offset = kafkaOffsetConfig.getProperties(offset_key);
 						log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
 						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						consumer.seek(topicPartition, start_offset);
+						if(start_offset != 0)
+						 consumer.seek(topicPartition, start_offset);
 						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
 					}
 					while (true) {
@@ -92,7 +97,7 @@ public class KafkaConsumerLinster {
 					    	if(isRecordOffSet) {
 								log.info(Thread.currentThread() + ",app start set offsetpath , so need record offset ....");
 								String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
-								KafkaOffsetConfig.setProperty(offset_key, offset);
+								kafkaOffsetConfig.setProperty(offset_key, offset);
 								log.info(Thread.currentThread() + " offset record comple...offset_key=" + offset_key );
 							}
 					    }
@@ -142,10 +147,11 @@ public class KafkaConsumerLinster {
 					//判断是否需要从 设置的offset 开始 读取
 					if(isRecordOffSet) {
 						String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
-						long start_offset = KafkaOffsetConfig.getProperties(offset_key);
+						long start_offset = kafkaOffsetConfig.getProperties(offset_key);
 						log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
 						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						consumer.seek(topicPartition, start_offset);
+						if(start_offset != 0)
+						 consumer.seek(topicPartition, start_offset);
 						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
 					}
 			        
@@ -170,7 +176,7 @@ public class KafkaConsumerLinster {
 					    	if(isRecordOffSet) {
 								log.info(Thread.currentThread() + ",app start set offsetpath , so need record offset ....");
 								String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
-								KafkaOffsetConfig.setProperty(offset_key, offset);
+								kafkaOffsetConfig.setProperty(offset_key, offset);
 								log.info(Thread.currentThread() + " offset record comple...offset_key=" + offset_key );
 							}
 					    }

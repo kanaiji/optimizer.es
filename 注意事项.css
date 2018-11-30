@@ -30,7 +30,8 @@ nohup  java -jar optimizer.es.jar  -Xms2g -Xmx200m -XX:+UseConcMarkSweepGC +UseC
 ##注意，如果不需要从头开始，则把服务器上/agui/kafka_offset.properties 文件替换到项目中classpath:config/kafka_offset.properties 中。
 
 
-
+#有offset 需求的 jar 启动参数
+nohup  java -jar optimizer.es.jar /agui/kafka_offset.properties -Xms2g -Xmx200m -XX:+UseConcMarkSweepGC +UseCMSCompactAtFullCollection --logfile=optimizer_es.log  > optimizer_es.log 2>& 1 &   
 
 
 
