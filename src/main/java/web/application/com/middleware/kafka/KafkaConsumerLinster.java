@@ -76,10 +76,11 @@ public class KafkaConsumerLinster {
 						String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
 						long start_offset = kafkaOffsetConfig.getProperties(offset_key);
 						log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						if(start_offset != 0)
-						 consumer.seek(topicPartition, start_offset);
-						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
+//						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+						if(start_offset != 0) {
+							consumer.seek(topicPartition, start_offset);
+							log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ offset="+start_offset);
+						}
 					}
 					while (true) {
 						ConsumerRecords<String, String> records = consumer.poll(1000);
@@ -149,10 +150,11 @@ public class KafkaConsumerLinster {
 						String offset_key = CommonConst.TOPIC_BUDGET_DELTA + "_" + index;
 						long start_offset = kafkaOffsetConfig.getProperties(offset_key);
 						log.info(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
-						if(start_offset != 0)
-						 consumer.seek(topicPartition, start_offset);
-						log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ ");
+//						System.out.println(Thread.currentThread() +  "offset_key = " +  offset_key + ", start_offset=" + start_offset);
+						if(start_offset != 0) {
+							consumer.seek(topicPartition, start_offset);
+							log.info(Thread.currentThread() + " -->" + offset_key +" isn't 0 , so 接着该offset 继续！ offset="+start_offset);
+						}
 					}
 			        
 					while (true) {

@@ -39,7 +39,7 @@ public class KafkaOffsetConfig {
 	}
 	
 	
-	public KafkaOffsetConfig() {
+	public void initOffSet() {
 		InputStream in = null;
 		try {
 			//通过该类的类装载器获取文件的路径
@@ -65,6 +65,8 @@ public class KafkaOffsetConfig {
 				}
 				
 			}
+			log.info("=== load init complet:" + offsetInit.toString());
+			
 		} catch (Exception e) {
 			log.error("=== load and init kafka offset txt exception:", e);
 		}

@@ -28,8 +28,9 @@ public class Application {
 			String offSetPath = args[0];
 			log.info("启动设置参数 offSetPath：" + offSetPath);
 			SpringContextUtil springContextUtil = new SpringContextUtil();
-			KafkaOffsetConfig KafkaOffsetConfig = (KafkaOffsetConfig) springContextUtil.getBean("kafkaOffsetConfig");
-			KafkaOffsetConfig.setFile_Url(offSetPath);
+			KafkaOffsetConfig kafkaOffsetConfig = (KafkaOffsetConfig) springContextUtil.getBean("kafkaOffsetConfig");
+			kafkaOffsetConfig.setFile_Url(offSetPath);
+			kafkaOffsetConfig.initOffSet();
 			isRecordOffSet = true;
 		}
 		
